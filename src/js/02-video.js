@@ -7,19 +7,21 @@ const player = new Player(iframe);
 
 const localStorage = 'videoplayer-current-time';
 
-const onPlay = function (data) {
-  localStorage.setItem(localStorage, data.seconds);
+console.log(localStorage);
 
-  console.log(localStorage.getItem(localStorage));
-};
+// const onPlay = function (data) {
+//   localStorage.setItem(localStorage, data.seconds);
 
-setCurrentTime();
+//   console.log(localStorage.getItem(localStorage));
+// };
 
-function setCurrentTime() {
-  if (!localStorage.getItem(localStorage)) {
-    return;
-  }
-  player.setCurrentTime(localStorage.getItem(LOCALSTORAGE_KEY));
-}
+// setCurrentTime();
 
-player.on('timeupdate', throttle(onPlay, 1000));
+// function setCurrentTime() {
+//   if (!localStorage.getItem(localStorage)) {
+//     return;
+//   }
+//   player.setCurrentTime(localStorage.getItem(LOCALSTORAGE_KEY));
+// }
+
+// player.on('timeupdate', throttle(onPlay, 1000));
