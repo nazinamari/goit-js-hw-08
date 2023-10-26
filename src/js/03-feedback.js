@@ -11,33 +11,37 @@ form.addEventListener('input', throttle(onFormInput, 500))
 
 saveFormData();
 
-function onFormSubmit(e) {
-    e.preventDefault();
+function onFormSubmit(evt) {
+    evt.preventDefault();
 
-    if (e.currentTarget.elements.email.value === "" || e.currentTarget.elements.message.value === "") {
-    alert("Please, fill in all the fields!")
+    const { email, message } = evt.currentTarget.elements;
+
+    if (email.value === "" || message.value === "") {
+        alert("Please, fill in all the fields!");
+        return;
     }
 
-    e.currentTarget.reset();
+    evt.currentTarget.reset();
 
     localStorage.removeItem(FEEDBACK);
 
     console.log(formData); 
- };
+};
 
-function onFormInput(event) {
-    formData[event.target.name] = event.target.value;
+function onFormInput(evt) {
+    formData[evt.target.name] = evt.target.value;
 
     const formInputData = JSON.stringify(formData);
-
+    
     localStorage.setItem(FEEDBACK, formInputData)
- };
+};
 
 function saveFormData() {
     const savedFormData = JSON.parse(localStorage.getItem(FEEDBACK));
 
     if (savedFormData) {
-        form.elements.email.value = savedFormData.email || "";
-        form.elements.message.value = savedFormData.message || "";
+        const { email, message } = savedFormData;
+        form.elements.email.value = email || "";
+        form.elements.message.value = message || "";
     }
 }

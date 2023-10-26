@@ -1,17 +1,12 @@
-// Add imports above this line
 import { galleryItems } from './gallery-items';
-// Change code below this line
-
-console.log(galleryItems);
-
-// Описаний в документації
-import SimpleLightbox from 'simplelightbox';
-// Додатковий імпорт стилів
-import 'simplelightbox/dist/simple-lightbox.min.css';
+// Описан в документации
+import SimpleLightbox from "simplelightbox";
+// Дополнительный импорт стилей
+import "simplelightbox/dist/simple-lightbox.min.css";
 
 const galleryContainer = document.querySelector('.gallery');
 
-function createGallaryMarkup(items) {
+function createGalleryMarkup(items) {
   return items
     .map(
       item =>
@@ -21,9 +16,9 @@ function createGallaryMarkup(items) {
     .join('');
 }
 
-const addGallaryMarkup = createGallaryMarkup(galleryItems);
+const addGalleryMarkup = createGalleryMarkup(galleryItems);
 
-galleryContainer.insertAdjacentHTML('beforeend', addGallaryMarkup);
+galleryContainer.insertAdjacentHTML('beforeend', addGalleryMarkup);
 
 const lightbox = new SimpleLightbox('.gallery a', {
   captionsData: 'alt',
