@@ -1,17 +1,21 @@
-import throttle from "lodash.throttle";
+import throttle from 'lodash.throttle';
 
-const FEEDBACK = 'feedback-form-state';
+const refs = {
+    form: document.querySelector('form.feedback-form'),
+    emailInput: document.querySelector('input[name="email"]'),
+    textarea: document.querySelector('textarea[name="message"]')
+};
 
-let formData = JSON.parse(localStorage.getItem(FEEDBACK)) || {};
+const STORAGE_KEY = 'feedback-form-state';
+const formData = { email: '', message: '' };
+populateForm();
 
-const form = document.querySelector('.feedback-form');
+refs.form.addEventListener('submit', onFormSubmit);
+refs.emailInput.addEventListener('input', throttle(onEmailInput, 500));
+refs.textarea.addEventListener('input', throttle(onTextareaInput, 500));
 
-form.addEventListener('submit', onFormSubmit);
-form.addEventListener('input', throttle(onFormInput, 500))
 
-saveFormData();
-
-function onFormSubmit(evt) {
+function onFormSubmit (evt) {
     evt.preventDefault();
 
     const { email, message } = evt.currentTarget.elements;
@@ -22,26 +26,26 @@ function onFormSubmit(evt) {
     }
 
     evt.currentTarget.reset();
-
-    localStorage.removeItem(FEEDBACK);
-
-    console.log(formData); 
+    localStorage.removeItem(STORAGE_KEY);
 };
 
-function onFormInput(evt) {
+function onEmailInput (evt) {
     formData[evt.target.name] = evt.target.value;
-
-    const formInputData = JSON.stringify(formData);
-    
-    localStorage.setItem(FEEDBACK, formInputData)
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
 };
 
-function saveFormData() {
-    const savedFormData = JSON.parse(localStorage.getItem(FEEDBACK));
+function onTextareaInput (evt) {
+    formData[evt.target.name] = evt.target.value;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+};
 
-    if (savedFormData) {
-        const { email, message } = savedFormData;
-        form.elements.email.value = email || "";
-        form.elements.message.value = message || "";
+function populateForm () {
+    const savedForm = JSON.parse(localStorage.getItem(STORAGE_KEY));
+
+    if(savedForm) {
+        refs.emailInput.value = savedForm.email || "";
+        refs.textarea.value = savedForm.message || "";
+        console.log(savedForm);
     }
-}
+};
+
